@@ -15,13 +15,13 @@ public class WebSocketSessionManager {
 
 	private final List<WebSocketSession> webSocketSessions = new ArrayList<>();
 
-	public Set<WebSocketSession> getWebSocketInGroupSessionsExcept(WebSocketSession webSocketSession) {
+	public List<WebSocketSession> getWebSocketSessionsExcept(WebSocketSession webSocketSession) {
 		var nonMatchingSessions = this.webSocketSessions.stream()
-				.filter(x -> !x.getId().equalsIgnoreCase(webSocketSession.getId())).collect(Collectors.toSet());
+				.filter(x -> !x.getId().equalsIgnoreCase(webSocketSession.getId())).collect(Collectors.toList());
 		return nonMatchingSessions;
 	}
 
-	public void addWebSocketToUserGroupSession(WebSocketSession webSocketSession) {
+	public void addWebSocketSession(WebSocketSession webSocketSession) {
 		this.webSocketSessions.add(webSocketSession);
 	}
 

@@ -1,12 +1,12 @@
 package com.fwitch.backend.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class FwitchController {
 	
-	@GetMapping(value = {"/", "/fwitch", "/index.html"})
+	@GetMapping(value = {"/", "/fwitch"})
 	public String forward() {
 		return "forward:/index.html";
 	}

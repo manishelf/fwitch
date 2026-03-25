@@ -1,43 +1,46 @@
 package com.fwitch.backend.socket;
 
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
+import java.io.IOException;
+import java.util.List;
 
-public class ChatSocketHandler implements WebSocketHandler {
+import org.springframework.web.socket.BinaryMessage;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.BinaryWebSocketHandler;
+
+public class ChatSocketHandler extends BinaryWebSocketHandler {
+
+	WebSocketSessionManager wsManager;
 
 	public ChatSocketHandler(WebSocketSessionManager wsManager) {
-		// TODO Auto-generated constructor stub
+		this.wsManager = wsManager;
 	}
-
-	@Override
+	
+    @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// TODO Auto-generated method stub
-
+		wsManager.addWebSocketSession(session);
+		super.afterConnectionEstablished(session);
 	}
 
 	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		// TODO Auto-generated method stub
+	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
+		// echo incomming message
+		List<WebSocketSession> sessions = wsManager.getWebSocketSessionsExcept(session);
+		for(var otherSession : sessions) {
+			try {
+				otherSession.sendMessage(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
+		}
+		super.handleBinaryMessage(session, message);
 	}
 
 	@Override
-	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean supportsPartialMessages() {
-		return false;
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		wsManager.removeWebSocketSession(session);
+		super.afterConnectionClosed(session, status);
 	}
 
 }
