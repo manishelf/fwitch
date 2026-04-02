@@ -23,9 +23,9 @@ public class FrameSerializer {
         buffer.putLong(serialVersionUID);
         buffer.putLong(frame.frameNo);
         buffer.putInt(videoLength);
-        if (videoLength > 0) buffer.put(compress(frame.video));
+        //if (videoLength > 0) buffer.put(compress(frame.video));
         buffer.putInt(audioLength);
-        if (audioLength > 0) buffer.put(compress(frame.audio));
+        //if (audioLength > 0) buffer.put(compress(frame.audio));
         buffer.put(xorPartity(buffer.array()));
         return buffer.array();
     }
@@ -37,23 +37,24 @@ public class FrameSerializer {
         
         long frameNo = buffer.getLong();
         int videoLength = buffer.getInt();
-        byte[] video = new byte[videoLength];
-        buffer.get(decompress(video));
+        Image[] video = new Image[videoLength];
+        //buffer.get(decompress(video));
 
         int audioLength = buffer.getInt();
-        byte[] audio = new byte[audioLength];
-        buffer.get(decompress(audio));
+        Sample[] audio = new Sample[audioLength];
+        //buffer.get(decompress(audio));
+        
         // TODO: validate parity
         byte xorParity = buffer.get();
         return new Frame(frameNo, video, audio);
     }
     
-    public static byte[] compress(byte[] raw) {
-    	return raw;
+    public static byte[] compress(Sample[] raw) {
+    	return null;
     }
 
-    public static byte[] decompress(byte[] compressed) {
-    	return compressed;
+    public static Sample[] decompress(byte[] compressed) {
+    	return null;
     }
     
     public static byte xorPartity(byte[] in) {
