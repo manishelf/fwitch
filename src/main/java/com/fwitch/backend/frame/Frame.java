@@ -7,6 +7,10 @@ public class Frame implements Serializable {
 	Sample[] audio;
 	long frameNo = 0;
 	
+	public Frame() {
+		
+	}
+	
 	public Frame(long frameNo, Image[] video, Sample[] audio) {
 		this.frameNo = frameNo;
     	this.video = video;

@@ -14,10 +14,10 @@ public class FwitchApplication {
 
 	public static void main(String[] args) {
 		//SpringApplication.run(FwitchApplication.class, args);
-		System.out.print("hello");
+		System.out.println("fwitch");
 		FrameGenerator gen = new FrameGenerator(Path.of("C:\\Users\\patil\\Downloads\\clipGolemDelivers.avi"));
 		for(Frame f : gen) {
-			
+			System.out.println(f.getFrameNo());
 		}
 	}
 
